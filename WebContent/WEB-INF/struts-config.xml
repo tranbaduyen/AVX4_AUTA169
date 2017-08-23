@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts 
+Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+<struts-config>
+	<form-beans>
+		<form-bean name="searchKYSNBForm" type="form.SearchKYSNBForm"></form-bean>
+	</form-beans>
+	<action-mappings>
+	
+		<action input="/listAUTA169.jsp" name="searchKYSNBForm"
+			path="/list" scope="request" type="action.SearchKYSNBAction">
+			<forward name="error" path="/error500.jsp" />
+			<forward name="listKYSNB" path="/listAUTA169.jsp" />
+		</action>
+	</action-mappings>
+	<message-resources parameter="action.ApplicationResources" />
+	
+</struts-config>
