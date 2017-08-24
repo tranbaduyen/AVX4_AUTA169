@@ -11,6 +11,7 @@ Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
 			path="/list" scope="request" type="action.SearchKYSNBAction">
 			<forward name="error" path="/error500.jsp" />
 			<forward name="listKYSNB" path="/listAUTA169.jsp" />
+			<forward name="searchError" path="/listAUTA169.jsp" />
 		</action>
 	</action-mappings>
 	<message-resources parameter="action.ApplicationResources" />

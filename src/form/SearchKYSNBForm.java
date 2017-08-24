@@ -1,15 +1,21 @@
 package form;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionMapping;
 
 import model.bean.KYSNB;
+import model.bean.MFOPM;
 
 public class SearchKYSNBForm extends ActionForm{
 	
 	private static final long serialVersionUID = 1L;
 	private ArrayList<KYSNB> listKYSNB;
+	private ArrayList<MFOPM> listMFOPM;
 	private int noOfPages;
 	private int currentPage;
 	private String submit;
@@ -22,7 +28,36 @@ public class SearchKYSNBForm extends ActionForm{
 	private String kYSNB_SSCD;
 	private String kYSNB_BHNO;
 	private int limit = 10;
+	private int errorFirst = 0;
 	
+
+	/**
+	 * @return the errorFirst
+	 */
+	public int getErrorFirst() {
+		return errorFirst;
+	}
+
+	/**
+	 * @param errorFirst the errorFirst to set
+	 */
+	public void setErrorFirst(int errorFirst) {
+		this.errorFirst = errorFirst;
+	}
+
+	/**
+	 * @return the listMFOPM
+	 */
+	public ArrayList<MFOPM> getListMFOPM() {
+		return listMFOPM;
+	}
+
+	/**
+	 * @param listMFOPM the listMFOPM to set
+	 */
+	public void setListMFOPM(ArrayList<MFOPM> listMFOPM) {
+		this.listMFOPM = listMFOPM;
+	}
 
 	/**
 	 * @return the limit
@@ -206,6 +241,13 @@ public class SearchKYSNBForm extends ActionForm{
 		this.kYSNB_BHNO = kYSNB_BHNO;
 	}
 	
-	
+	@Override
+	public void reset(ActionMapping mapping, HttpServletRequest request) {
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			;
+		}
+	}
 	
 }

@@ -8,13 +8,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>
 	<title>ケーワイ出荷指示送信データ照会 </title>
 	<link rel="stylesheet" href="css/bootstrap.min.css">    
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="css/font-awesome.min.css">
 </head>
 <body>
 	<div class="container" style="background-color:#C4D6EA; padding: 0px 5px 5px 5px;border: 4px solid #1A75C6;display:block;">
@@ -25,11 +26,30 @@
 				<div id="clock" class="screenDay" style="margin-right:2px;color:#3E8ACF;" ></div>
 			</div>
 			<!--Tạo thanh thông báo lỗi-->
-				<div class="body">					
+				<div class="body">
+					<bean:define id="errorFirst" name="searchKYSNBForm" property="errorFirst"></bean:define>
+					<span style="display: none;"><bean:write name="errorFirst"/></span>					
 					<div class="successful">
-						<span style="font-size:15px; margin-left:5px; color:red;">		
-							<<< エラーメッセージ >>>
-						</span>
+						<c:if test="${errorFirst == 0}">
+						
+						</c:if>
+						<c:if test="${errorFirst != 0}">
+						<label for="errorMessage" style="color: black;font-size:13px; margin-left:5px;">
+							<span id="iconmessage1"></span>
+							<label for="message1" id="message1"><html:errors property="kYSNB_SEDT_FromError" /></label>
+							<span id="iconmessage2"></span>
+							<label for="message2" id="message2"><html:errors property="kYSNB_SEDT_ToError" /></label>
+							<span id="iconmessage3"></span>
+							<label for="message3" id="message3"><html:errors property="kYSNB_SSCDError" /></label>
+							<span id="iconmessage4"></span>
+							<label for="message4" id="message4"><html:errors property="kYSNB_DEPOError" /></label>
+							<span id="iconmessage5"></span>
+							<label for="message5" id="message5"><html:errors property="kYSND_SSCDError" /></label>
+							<span id="iconmessage6"></span>
+							<label for="message6" id="message6"><html:errors property="kYSNB_SearchError" /></label>
+						</label>
+					</c:if>
+						
 					</div>						
 				</div>
 				<!--Tạo các trường tìm kiếm-->
@@ -60,9 +80,8 @@
 							<label class="label" style="width:25%;text-align:left;font-size:14px;font-family:white;color: white">メーカー</label>
 							<html:select styleId="cbbKYSNB_MKCD" styleClass="select" property="kYSNB_MKCD" style="width:26%;margin-left:2px;">
 								<html:option value="0">を選択してください</html:option>
-								<html:option value="1">1</html:option>
-								<html:option value="2">2</html:option>
-								<html:option value="3">3</html:option>
+								<html:optionsCollection styleClass="opt" name="searchKYSNBForm" property="listMFOPM" 
+										label="mFOPM_MKCD" value="mFOPM_MKCD" />
 							</html:select>
 						</div>
 						
@@ -107,7 +126,7 @@
 			</html:form>
 			<form action="/list" method="get">
 				<div>
-					<table class="stttb">
+					<table id="myTable" class="stttb">
 					<!--Tạo cột cho bảng kết quả tìm kiếm-->
 						<thead>
 							<tr style="background-color:#1A75C6;color: white;">
@@ -212,10 +231,10 @@
 						</tbody>
 					</table>						
 				</div>					
-				<div style="margin-top:15px;float:right;">
-					<button  id="export" class="btnexport" onclick="return false;">エクスポート(E)</button> 					
-				</div>
 			</form>
+			<div style="margin-top:15px;float:right;">
+				<button  id="export" class="btnexport" onclick="tableToExcel('myTable', 'List KYSNB Page ${currentPage}')">エクスポート(E)</button> 					
+			</div>
 		</div>
 </body>
 <script>
@@ -255,5 +274,49 @@
 			document.getElementById("clock").innerHTML= year + "年" +months[month] + "月" + date + "日"; 
 
 			setTimeout("refrClock()",1000); } refrClock();
+	</script>
+	<script type="text/javascript">
+		var message1 = $("#message1").text();
+		var message2 = $("#message2").text();
+		var message3 = $("#message3").text();
+		var message4 = $("#message4").text();
+		var message5 = $("#message5").text();
+		var message6 = $("#message6").text();
+		var message7 = $("#message7").text();
+		var message8 = $("#message8").text();
+		var message9 = $("#message9").text();
+		var message10 = $("#message10").text();
+		var message12 = $("#message12").text();
+		if(message1.length > 0){
+			$("#iconmessage1").html('<i class="fa fa-exclamation-triangle" style="color:#cccc00;"></i>');
+		}
+		if(message2.length > 0){
+			$("#iconmessage2").html('</br><i class="fa fa-exclamation-triangle" style="color:#cccc00;"></i>');
+		}
+		if(message3.length > 0){
+			$("#iconmessage3").html('</br><i class="fa fa-exclamation-triangle" style="color:#cccc00;"></i>');
+		}
+		if(message4.length > 0){
+			$("#iconmessage4").html('</br><i class="fa fa-exclamation-triangle" style="color:#cccc00;"></i>');
+		}
+		if(message5.length > 0){
+			$("#iconmessage5").html('</br><i class="fa fa-exclamation-triangle" style="color:#cccc00;"></i>');
+		}
+		if(message6.length > 0){
+			$("#iconmessage6").html('</br><i class="fa fa-exclamation-triangle" style="color:#cccc00;"></i>');
+		}
+	</script>
+	<script type="text/javascript">
+	var tableToExcel = (function() {
+	  var uri = 'data:application/vnd.ms-excel;base64,'
+	    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>'
+	    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+	    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+	  return function(table, name) {
+	    if (!table.nodeType) table = document.getElementById(table)
+	    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+	    window.location.href = uri + base64(format(template, ctx))
+	  }
+	})()
 	</script>
 </html>

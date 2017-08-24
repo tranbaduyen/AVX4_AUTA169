@@ -5,8 +5,8 @@ package model.bo;
 
 import java.util.ArrayList;
 
-import model.bean.AUTMFOPM;
-import model.dao.AUTMFOPMDAO;
+import model.bean.MFOPM;
+import model.dao.MFOPMDAO;
 
 /**
  * AUTMFOPMBO.java
@@ -22,8 +22,8 @@ import model.dao.AUTMFOPMDAO;
  * -----------------------------------------------------------------------
  * 18-05-2017 		DuyenTB 		Create
  */
-public class AUTMFOPMBO {
-	AUTMFOPMDAO autMFOPMDAO = new AUTMFOPMDAO();
+public class MFOPMBO {
+	MFOPMDAO autMFOPMDAO = new MFOPMDAO();
 
 	/**
 	 * Method get list AUTMFOPM
@@ -31,7 +31,7 @@ public class AUTMFOPMBO {
 	 * @return ArrayList<AUTMFOPM>
 	 * @throws Exception
 	 */
-	public ArrayList<AUTMFOPM> getListAUTMFOPM() throws Exception {
+	public ArrayList<MFOPM> getListAUTMFOPM() throws Exception {
 		return autMFOPMDAO.getListAUTMFOPM();
 	}
 }

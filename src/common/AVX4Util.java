@@ -1,5 +1,10 @@
 package common;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class AVX4Util {
 	
 	public static boolean isBlankOrNull(String string) {
@@ -24,4 +29,18 @@ public class AVX4Util {
 		return date;
 	}
 	
+	public static boolean compareDate(String startDate, String endDate) {
+		if(AVX4Util.isBlankOrNull(startDate) || AVX4Util.isBlankOrNull(endDate)) {
+			return false;
+		}
+		try {
+			Date start = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH).parse(startDate);
+			Date end = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH).parse(endDate);
+			System.out.println(start);
+			System.out.println(end);
+			return start.compareTo(end) > 0;
+		} catch (ParseException e) {
+			return false;
+		}
+	}
 }

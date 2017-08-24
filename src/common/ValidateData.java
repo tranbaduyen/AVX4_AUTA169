@@ -1,7 +1,5 @@
 package common;
 
-import java.util.Calendar;
-
 /**
  * ValidateData.java
  *
@@ -25,129 +23,81 @@ public class ValidateData {
 	 * @return str
 	 */
 	public static String chuanHoa(String str) {
+		if(str == null) {
+			str = "";
+		}
 		str = str.trim();
 		str = str.replaceAll("'", "");
 		str = str.replaceAll("\\s+", " ");
 		return str;
 	}
 
-	/**
-	 * Ham kiem tra truong kieu string co rong hay khong ? 
-	 * Method check string is empty ?
-	 * 
-	 * @param str
-	 * @return boolean
-	 */
-	public static boolean isEmpty(String str) {
-		str = chuanHoa(str);
-		return (str == null || str.length() == 0 || "".equals(str) || "0".equals(str));
+	private static boolean isNamNhuan(int year) {
+		return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 	}
-
-	/**
-	 * Ham kiem tra xem xau co bao gom tat ca chu so hay khong 
-	 * Method check number type
-	 * 
-	 * @param str
-	 * @return true || false
-	 */
-	public static boolean isAllNumber(String str) {
-		str = chuanHoa(str);
-		String regex = "[0-9+-]+";
-		return (str.matches(regex));
-	}
-
-	/**
-	 * Ham kiem tra xau co ki tu dac biet hay khong ? 
-	 * Method check string use special characters ?
-	 * 
-	 * @param str
-	 * @return true || false
-	 */
-	public static boolean isSpecialCharacters(String str) {
-		str = chuanHoa(str);
-		String regex = (".*[\"\\.&,@!?%'$()/\\\\\\_<>].*");
-		return (str.matches(regex));
-	}
-
-	/**
-	 * Ham kiem tra record co rong hay khong ?
-	 * Method check record is blank.
-	 * 
-	 * @param kYSND_DEPO
-	 * @param kYSND_MKCD
-	 * @param kYSND_SSCD
-	 * @param kYSND_FORM
-	 * @param kYSND_BHNO
-	 * @param kYSND_SYMD
-	 * @param kYSND_CHNO
-	 * @param kYSND_SKCD
-	 * @param kYSND_SZSU
-	 * @param kYSND_BHME
-	 * @param kYSND_SYCD
-	 * @param kYSND_SPBN
-	 * @return true || false
-	 */
-	public static boolean isBlankRecord(String kYSND_DEPO, String kYSND_MKCD, String kYSND_SSCD, String kYSND_FORM,
-			String kYSND_BHNO, String kYSND_SYMD, String kYSND_CHNO, String kYSND_SKCD, String kYSND_SZSU,
-			String kYSND_BHME, String kYSND_SYCD, String kYSND_SPBN) {
-		if ((kYSND_DEPO == null || kYSND_DEPO.length() == 0 || "".equals(kYSND_DEPO)) && ("0".equals(kYSND_MKCD))
-				&& (kYSND_SSCD == null || kYSND_SSCD.length() == 0 || "".equals(kYSND_SSCD))
-				&& (kYSND_FORM == null || kYSND_FORM.length() == 0 || "".equals(kYSND_FORM))
-				&& (kYSND_BHNO == null || kYSND_BHNO.length() == 0 || "".equals(kYSND_BHNO))
-				&& (kYSND_SYMD == null || kYSND_SYMD.length() == 0 || "".equals(kYSND_SYMD))
-				&& (kYSND_CHNO == null || kYSND_CHNO.length() == 0 || "".equals(kYSND_CHNO))
-				&& (kYSND_SKCD == null || kYSND_SKCD.length() == 0 || "".equals(kYSND_SKCD))
-				&& (kYSND_SZSU == null || kYSND_SZSU.length() == 0 || "".equals(kYSND_SZSU))
-				&& (kYSND_BHME == null || kYSND_BHME.length() == 0 || "".equals(kYSND_BHME)) && ("0".equals(kYSND_SYCD))
-				&& (kYSND_SPBN == null || kYSND_SPBN.length() == 0 || "".equals(kYSND_SPBN))) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Ham kiem tra theo business SRS
-	 * Method check business kYSND_MKCD = '01' AND the 15th character of kYSND_BHNO = '#'
-	 * 
-	 * @param kYSND_MKCD
-	 * @param kYSND_BHNO
-	 * @return true || false
-	 */
-	public static boolean isInvalidKYSND_BHNO(String kYSND_MKCD, String kYSND_BHNO) {
-		chuanHoa(kYSND_BHNO);
-		String kYSND_FIL = kYSND_BHNO.substring(14, 15);
-		return ("01".equals(kYSND_MKCD) && "#".equals(kYSND_FIL));
-	}
-
+	
 	/**
 	 * Ham kiem tra gia tri hop le kieu date 
-	 * Method check valid date value (1900 <= yyyy <= 2117, 1 <= MM <= 12, 1 <= dd <= 31) 
+	 * Method check valid date value 
 	 * 
-	 * @param kYSND_SYMD
+	 * @param date
 	 * @return true || false
 	 */
-	public static boolean isInvalidDateValue(String kYSND_SYMD) {
-		chuanHoa(kYSND_SYMD);
-		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-		int year = Integer.parseInt(kYSND_SYMD.substring(0, 4));
-		int month = Integer.parseInt(kYSND_SYMD.substring(4, 6));
-		int day = Integer.parseInt(kYSND_SYMD.substring(6, 8));
+	public static boolean isValidDateValue(String date) {
+		chuanHoa(date);
+		if(AVX4Util.isBlankOrNull(date)) {
+			return true;
+		}
+		
+		int year = Integer.parseInt(date.substring(0, 4));
+		int month = Integer.parseInt(date.substring(5, 7));
+		int day = Integer.parseInt(date.substring(8, 10));
 
-		return (year < 1900 || year > currentYear + 100 || month < 1 || month > 12 || day < 1 || day > 31);
+		if(year <1 || month<1 || month>12 || day<1)
+			return false;
+		else
+		{
+			switch (month)
+			{
+			case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+				if(day>31)
+					return false;
+				else
+					return true;
+			case 4: case 6: case 9: case 11:
+				if(day>30)
+					return false;
+				else
+					return true;
+			case 2:
+				if(isNamNhuan(year))
+				{
+					if(day>29)
+						return false;
+				}
+				else
+					if(day>28)
+						return false;
+				break;
+			}
+		}
+		return true;
 	}
 
 	/**
 	 * Ham kiem tra format hop le kieu date
-	 * Method check valid date format (8 numeric characters: yyyyMMdd )
+	 * Method check valid date format (10 characters: yyyy/MM/dd )
 	 * 
-	 * @param kYSND_SYMD
+	 * @param date
 	 * @return true || false
 	 */
-	public static boolean isInvalidDateFormat(String kYSND_SYMD) {
-		kYSND_SYMD = chuanHoa(kYSND_SYMD);
-		String regex = "[0-9]+";
-		return !(kYSND_SYMD.matches(regex) && kYSND_SYMD.length() == 8);
+	public static boolean isInvalidDateFormat(String date) {
+		date = chuanHoa(date);
+		if(AVX4Util.isBlankOrNull(date)) {
+			return false;
+		}
+		String regex = "^(\\d{4})/(0?[1-9]|1[012])/(0?[1-9]|[12][0-9]|3‌​[01])$";
+		return !(date.matches(regex)) && date.length() != 10;
 	}
 	
 	/**
@@ -159,6 +109,8 @@ public class ValidateData {
 	 * @return true || false
 	 */
 	public static boolean isContainFullSize(String cmdl) {
+		if(AVX4Util.isBlankOrNull(cmdl))
+			return false;
 		boolean isFullSize = false;
 		for (char c : cmdl.toCharArray()) {
 			if (!isHalfSize(c)) {
