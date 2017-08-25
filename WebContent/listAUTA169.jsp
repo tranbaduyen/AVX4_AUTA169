@@ -13,9 +13,21 @@
 	<link rel="stylesheet" href="css/bootstrap.min.css">    
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/bootstrap.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	<script src="js/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<style type="text/css">
+		.successful {
+	padding-left:15px;
+	margin-top: 15px;
+	padding-top:2px;
+	color: black;
+	border: 1px solid #2367aa;
+	background-color:white;
+	border: 1px solid #7BAFD0;
+	
+}
+	</style>
 </head>
 <body>
 	<div class="container" style="background-color:#C4D6EA; padding: 0px 5px 5px 5px;border: 4px solid #1A75C6;display:block;">
@@ -36,17 +48,17 @@
 						<c:if test="${errorFirst != 0}">
 						<label for="errorMessage" style="color: black;font-size:13px; margin-left:5px;">
 							<span id="iconmessage1"></span>
-							<label for="message1" id="message1"><html:errors property="kYSNB_SEDT_FromError" /></label>
+							<span for="message1" id="message1"><html:errors property="kYSNB_SEDT_FromError" /></span>
 							<span id="iconmessage2"></span>
-							<label for="message2" id="message2"><html:errors property="kYSNB_SEDT_ToError" /></label>
+							<span for="message2" id="message2"><html:errors property="kYSNB_SEDT_ToError" /></span>
 							<span id="iconmessage3"></span>
-							<label for="message3" id="message3"><html:errors property="kYSNB_SSCDError" /></label>
+							<span for="message3" id="message3"><html:errors property="kYSNB_SSCDError" /></span>
 							<span id="iconmessage4"></span>
-							<label for="message4" id="message4"><html:errors property="kYSNB_DEPOError" /></label>
+							<span for="message4" id="message4"><html:errors property="kYSNB_DEPOError" /></span>
 							<span id="iconmessage5"></span>
-							<label for="message5" id="message5"><html:errors property="kYSND_SSCDError" /></label>
+							<span for="message5" id="message5"><html:errors property="kYSNB_SEDT_FromToError" /></span>
 							<span id="iconmessage6"></span>
-							<label for="message6" id="message6"><html:errors property="kYSNB_SearchError" /></label>
+							<span for="message6" id="message6"><html:errors property="kYSNB_SearchError" /></span>
 						</label>
 					</c:if>
 						
@@ -291,19 +303,19 @@
 			$("#iconmessage1").html('<i class="fa fa-exclamation-triangle" style="color:#cccc00;"></i>');
 		}
 		if(message2.length > 0){
-			$("#iconmessage2").html('</br><i class="fa fa-exclamation-triangle" style="color:#cccc00;"></i>');
+			$("#iconmessage2").html('<i class="fa fa-exclamation-triangle" style="color:#cccc00;"></i>');
 		}
 		if(message3.length > 0){
-			$("#iconmessage3").html('</br><i class="fa fa-exclamation-triangle" style="color:#cccc00;"></i>');
+			$("#iconmessage3").html('<i class="fa fa-exclamation-triangle" style="color:#cccc00;"></i>');
 		}
 		if(message4.length > 0){
-			$("#iconmessage4").html('</br><i class="fa fa-exclamation-triangle" style="color:#cccc00;"></i>');
+			$("#iconmessage4").html('<i class="fa fa-exclamation-triangle" style="color:#cccc00;"></i>');
 		}
 		if(message5.length > 0){
-			$("#iconmessage5").html('</br><i class="fa fa-exclamation-triangle" style="color:#cccc00;"></i>');
+			$("#iconmessage5").html('<i class="fa fa-exclamation-triangle" style="color:#cccc00;"></i>');
 		}
 		if(message6.length > 0){
-			$("#iconmessage6").html('</br><i class="fa fa-exclamation-triangle" style="color:#cccc00;"></i>');
+			$("#iconmessage6").html('<i class="fa fa-exclamation-triangle" style="color:#cccc00;"></i>');
 		}
 	</script>
 	<script type="text/javascript">

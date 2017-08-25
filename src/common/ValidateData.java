@@ -44,11 +44,10 @@ public class ValidateData {
 	 * @return true || false
 	 */
 	public static boolean isValidDateValue(String date) {
-		chuanHoa(date);
 		if(AVX4Util.isBlankOrNull(date)) {
 			return true;
 		}
-		
+		chuanHoa(date);
 		int year = Integer.parseInt(date.substring(0, 4));
 		int month = Integer.parseInt(date.substring(5, 7));
 		int day = Integer.parseInt(date.substring(8, 10));

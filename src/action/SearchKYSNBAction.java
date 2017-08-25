@@ -93,7 +93,7 @@ public class SearchKYSNBAction extends Action {
 			if (searchKYSNBForm.getErrorFirst() == 0) {
 				searchKYSNBForm.setErrorFirst(1);
 			}
-		} else if (!ValidateData.isValidDateValue(kYSNB_SEDT_To)) {
+		} else if (!ValidateData.isValidDateValue(kYSNB_SEDT_From)) {
 			actionErrors.add("kYSNB_SEDT_FromError", new ActionMessage("error.sedtFrom.dateFormat"));
 			if (searchKYSNBForm.getErrorFirst() == 0) {
 				searchKYSNBForm.setErrorFirst(1);
@@ -111,7 +111,7 @@ public class SearchKYSNBAction extends Action {
 				searchKYSNBForm.setErrorFirst(2);
 			}
 		} else if (AVX4Util.compareDate(kYSNB_SEDT_From, kYSNB_SEDT_To)) {
-			actionErrors.add("kYSNB_SEDT_FromError", new ActionMessage("error.sedtFromTo.dateValue"));
+			actionErrors.add("kYSNB_SEDT_FromToError", new ActionMessage("error.sedtFromTo.dateValue"));
 			if (searchKYSNBForm.getErrorFirst() == 0) {
 				searchKYSNBForm.setErrorFirst(1);
 			}
@@ -161,6 +161,9 @@ public class SearchKYSNBAction extends Action {
 			if(listKYSNB == null || listKYSNB.size() == 0){
 				actionErrors.add("kYSNB_SearchError", new ActionMessage("error.search.noData"));
 				saveErrors(request, actionErrors);
+				if (searchKYSNBForm.getErrorFirst() == 0) {
+					searchKYSNBForm.setErrorFirst(1);
+				}
 			}
 			
 		} catch (Exception e) {
