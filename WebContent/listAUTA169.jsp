@@ -18,7 +18,7 @@
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<style type="text/css">
 		.successful {
-	padding-left:15px;
+	padding-left:10px;
 	margin-top: 15px;
 	padding-top:2px;
 	color: black;
@@ -26,7 +26,13 @@
 	background-color:white;
 	border: 1px solid #7BAFD0;
 	
-}
+	}
+	tbody:nth-child(odd) {
+	  background: #FFF;
+	}
+	tbody:nth-child(even) {
+	  background: #dee8f3;
+	}
 	</style>
 </head>
 <body>
@@ -41,31 +47,30 @@
 				<div class="body">
 					<bean:define id="errorFirst" name="searchKYSNBForm" property="errorFirst"></bean:define>
 					<span style="display: none;"><bean:write name="errorFirst"/></span>					
-					<div class="successful">
-						<c:if test="${errorFirst == 0}">
+					<c:if test="${errorFirst != 0}">
+						<div class="successful">
+							
+							<label for="errorMessage" style="color: black;font-size:13px; margin-left:5px;">
+								<span id="iconmessage1"></span>
+								<span for="message1" id="message1"><html:errors property="kYSNB_SEDT_FromError" /></span>
+								<span id="iconmessage2"></span>
+								<span for="message2" id="message2"><html:errors property="kYSNB_SEDT_ToError" /></span>
+								<span id="iconmessage3"></span>
+								<span for="message3" id="message3"><html:errors property="kYSNB_SSCDError" /></span>
+								<span id="iconmessage4"></span>
+								<span for="message4" id="message4"><html:errors property="kYSNB_DEPOError" /></span>
+								<span id="iconmessage5"></span>
+								<span for="message5" id="message5"><html:errors property="kYSNB_SEDT_FromToError" /></span>
+								<span id="iconmessage6"></span>
+								<span for="message6" id="message6"><html:errors property="kYSNB_SearchError" /></span>
+							</label>
 						
-						</c:if>
-						<c:if test="${errorFirst != 0}">
-						<label for="errorMessage" style="color: black;font-size:13px; margin-left:5px;">
-							<span id="iconmessage1"></span>
-							<span for="message1" id="message1"><html:errors property="kYSNB_SEDT_FromError" /></span>
-							<span id="iconmessage2"></span>
-							<span for="message2" id="message2"><html:errors property="kYSNB_SEDT_ToError" /></span>
-							<span id="iconmessage3"></span>
-							<span for="message3" id="message3"><html:errors property="kYSNB_SSCDError" /></span>
-							<span id="iconmessage4"></span>
-							<span for="message4" id="message4"><html:errors property="kYSNB_DEPOError" /></span>
-							<span id="iconmessage5"></span>
-							<span for="message5" id="message5"><html:errors property="kYSNB_SEDT_FromToError" /></span>
-							<span id="iconmessage6"></span>
-							<span for="message6" id="message6"><html:errors property="kYSNB_SearchError" /></span>
-						</label>
-					</c:if>
-						
-					</div>						
+							
+						</div>
+					</c:if>						
 				</div>
 				<!--Tạo các trường tìm kiếm-->
-				<html:form action="/list" method="get"  acceptCharset="UTF-8">
+				<html:form action="/list" method="post"  acceptCharset="UTF-8">
 				<div class="row form-group" style="margin-top:15px;">	
 					
 					<div class="bg" style="height:100px;" >
@@ -123,7 +128,7 @@
 						<html:link styleClass="button" href="list.do?currentPage=${currentPage+1}" style="width:23px;height:24px;"><img src="img/phaihover.png" style="width:20px;height:20px; margin-left:-7px;"></html:link>
 					</c:if>			
 					<span style="margin: 5px 0px 0px 15px; color:white; ">  ペ ー ジ </span>
-					<html:text style="margin-left:10px;width:40px;height:20px;" property="currentPage"></html:text>
+					<html:text styleId="pageNumber" style="margin-left:10px;width:40px;height:20px;" property="currentPage"></html:text>
 					<button class="btn111" style="margin-left:10px;width:50px;" name="submit" value="showPage">表示</button>
 					<!-- perRowNumber -->
 					<span style="margin: 5px 0px 0px 15px; color:white; ">  表 示 件 数</span>
@@ -138,7 +143,7 @@
 			</html:form>
 			<form action="/list" method="get">
 				<div>
-					<table id="myTable" class="stttb">
+					<table id="myTable" class="">
 					<!--Tạo cột cho bảng kết quả tìm kiếm-->
 						<thead>
 							<tr style="background-color:#1A75C6;color: white;">
@@ -160,66 +165,67 @@
 								<th style="text-align:center;">部品名称 </th>
 							</tr>
 						</thead>
-						<tbody style="background-color:white; text-align: center;">
+						<tbody style="text-align: center;">
 						<!--hang 1-->
 						<logic:present name="searchKYSNBForm" property="listKYSNB">
-						<logic:iterate name="searchKYSNBForm" property="listKYSNB" id="kYSNB">
+						<logic:iterate name="searchKYSNBForm" property="listKYSNB" id="kYSNB" indexId="index">
+						<tbody style="text-align: center;">
 							<tr>
-								<td class="stt" rowspan="2">1</td>
+								<td class="stt" rowspan="2">${(index+1) + (currentPage-1) * 10}</td>
 								<td style="width:30px;">
-									<span style="background-color:#EBEBE4;border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
+									<span style="border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
 										<bean:write name="kYSNB" property="kYSNB_SEDT"/>
 									</span>
 								</td>
 								<td style="width:30px;" rowspan="2">
-									<span style="background-color:#EBEBE4;border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
+									<span style="border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
 										<bean:write name="kYSNB" property="kYSNB_DEPO"/>
 									</span>
 								</td>
 								<td style="width:30px;" rowspan="2">
-									<span style="background-color:#EBEBE4;border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
+									<span style="border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
 										<bean:write name="kYSNB" property="kYSNB_MKCD"/>
 									</span>
 								</td>
 								<td style="width:30px;" rowspan="2">
-									<span style="background-color:#EBEBE4;border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
+									<span style="border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
 										<bean:write name="kYSNB" property="kYSNB_SSCD"/>
 									</span>
 								</td>
 								<td style="width:30px;" rowspan="2">
-									<span style="background-color:#EBEBE4;border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
+									<span style="border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
 										<bean:write name="kYSNB" property="kYSNB_SEQ"/>
 									</span>
 								</td>
 								<td style="width:30px;">
-									<span style="background-color:#EBEBE4;border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
+									<span style="border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
 										<bean:write name="kYSNB" property="kYSNB_BHNO"/>
 									</span>
 								</td>
 								<td style="width:30px;" rowspan="2">
-									<span style="background-color:#EBEBE4;border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
+									<span style="border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
 										<bean:write name="kYSNB" property="kYSNB_FORM"/>
 									</span>
 								</td>
 								<td style="width:30px;" rowspan="2">
-									<span style="background-color:#EBEBE4;border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
+									<span style="border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
 										<bean:write name="kYSNB" property="kYSNB_CHNO"/>
 									</span>
 								</td>
 								<td style="width:30px;" rowspan="2">
-									<span style="background-color:#EBEBE4;border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
+									<span style="border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
 										<span style="background-color:#EBEBE4;border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
 										<bean:write name="kYSNB" property="kYSNB_SYMD"/>
 									</span>
 								</td>
 								<td style="width:30px;" rowspan="2">
-									<span style="background-color:#EBEBE4;border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
+									<span style="border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
 										<span style="background-color:#EBEBE4;border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
 										<bean:write name="kYSNB" property="kYSNB_SZSU"/>
 									</span>
 								</td>
 								<td style="width:30px;" rowspan="2">
-									<span style="background-color:#EBEBE4;border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
+									<span style="border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
 										<bean:write name="kYSNB" property="kYSNB_SYCD"/>
 									</span>
 								</td>
@@ -227,20 +233,21 @@
 							<!--hang 1.1-->
 							<tr>
 								<td style="width:30px;">
-									<span style="background-color:#EBEBE4;border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
+									<span style="border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
 										<bean:write name="kYSNB" property="kYSNB_SHMS"/>
 									</span>
 								</td>
 								<td style="width:30px;">
-									<span style="background-color:#EBEBE4;border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
+									<span style="border: 1px solid #71a6fa;width:80%;margin:5px 3px;">
 										<bean:write name="kYSNB" property="kYSNB_BHME"/>
 									</span>
 								</td>
 
 							</tr>
+						</tbody>	
 						</logic:iterate>
 						</logic:present>
-						</tbody>
+						
 					</table>						
 				</div>					
 			</form>
@@ -258,10 +265,16 @@
 		$("#kYSNB_BHNO").val('');
 		$('#cbbKYSNB_MKCD').val('')
 	};
-	$('input[type="text"]').change(function() {
+	
+	$('.input_text').change(function() {
 	    this.value = this.value.replace(/[\\\'\\\"\\<\\>=]/g,'');
 	    
 	});
+	$('#pageNumber').change(function() {
+	    this.value = this.value.replace(/[\\\'\\\"\\<\\>=!@#$%^&*()-+{}?.,a-zA-Z]/g,1);
+	    
+	});
+	
 	</script>
 	<script type="text/javascript"> function refrClock() {
 		var d=new Date();
@@ -329,6 +342,51 @@
 	    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
 	    window.location.href = uri + base64(format(template, ctx))
 	  }
-	})()
+	});
+	</script>
+	<script>
+	jQuery.extend(jQuery.expr[':'], {
+	    focusable: function (el, index, selector) {
+	        return $(el).is('a, button, :input, [tabindex]');
+	    }
+	});
+	
+	$(document).on('keydown', ':focusable', function (e) {
+	    if (e.which == 13) {
+	        e.preventDefault();
+	        // Get all focusable elements on the page
+	        var $canfocus = $(':focusable');
+	        var index = $canfocus.index(this) + 1;
+	        if (index >= $canfocus.length) index = 0;
+	        $canfocus.eq(index).focus();
+	    }
+	});
+	</script>
+	<script >
+	$(function() {
+		  $('#kYSNB_SEDT_From').focus();
+		  var errorFirst = ${errorFirst}	 
+		  switch (errorFirst) {
+			case 1:
+				break;
+			case 2:
+				$('#kYSNB_SEDT_From').blur();
+				$('#kYSNB_SEDT_To').focus();
+				break;
+			case 3:
+				$('#kYSNB_SEDT_From').blur();
+				$('#kYSNB_SSCD').focus();
+				break;
+			case 4:
+				$('#kYSNB_SEDT_From').blur();
+				$('#kYSNB_DEPO').focus();
+				break;
+			case 5:
+				$('#kYSNB_SEDT_From').blur();
+				$('#kYSNB_BHNO').focus();
+				break;
+		}
+		  
+	});
 	</script>
 </html>

@@ -162,7 +162,7 @@ public class SearchKYSNBAction extends Action {
 				actionErrors.add("kYSNB_SearchError", new ActionMessage("error.search.noData"));
 				saveErrors(request, actionErrors);
 				if (searchKYSNBForm.getErrorFirst() == 0) {
-					searchKYSNBForm.setErrorFirst(1);
+					searchKYSNBForm.setErrorFirst(7);
 				}
 			}
 			

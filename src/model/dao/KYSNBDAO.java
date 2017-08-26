@@ -28,6 +28,14 @@ import model.bean.KYSNB;
  * -----------------------------------------------------------------------
  * 22-05-2017 		DuyenTB 		Create
  */
+/**
+ * @author admin
+ *
+ */
+/**
+ * @author admin
+ *
+ */
 public class KYSNBDAO {
 	DataAccess da = new DataAccess();
 	Connection connection = null;
@@ -37,22 +45,24 @@ public class KYSNBDAO {
 	private int noOfRecords = 0;
 
 
+	
 	/**
-	 * Ham lay danh sach Nha Phan Phoi theo keyword nhap vao tu indexStart den
-	 * indexEnd Method get list Distributor based on keyword from indexStart to
-	 * indexEnd
-	 * 
-	 * @param keyword
+	 * @param kYSNB_SEDT_From
+	 * @param kYSNB_SEDT_To
+	 * @param kYSNB_DEPO
+	 * @param kYSNB_MKCD
+	 * @param kYSNB_SSCD
+	 * @param kYSNB_BHNO
 	 * @param indexStart
 	 * @param indexEnd
-	 * @return list
+	 * @return ArrayList<KYSNB> list
 	 * @throws Exception
 	 */
 	public ArrayList<KYSNB> getListKYSNB(String kYSNB_SEDT_From,String kYSNB_SEDT_To,String kYSNB_DEPO,String kYSNB_MKCD,String kYSNB_SSCD,String kYSNB_BHNO, int indexStart, int indexEnd) throws Exception {
 		String sql1 = "SELECT KYSNB_SEDT, KYSNB_SHMS, KYSNB_DEPO, KYSNB_MKCD, KYSNB_SSCD, KYSNB_SEQ, KYSNB_MKKG,KYSNB_FORM,KYSNB_BHNO,KYSNB_SYMD,KYSNB_CHNO,KYSNB_SZSU,KYSNB_BHME,KYSNB_SYCD FROM ( "
-				+ " SELECT dt.*, ROW_NUMBER() over (ORDER BY KYSNB_SEDT, KYSNB_SHMS, KYSNB_DEPO, KYSNB_MKCD, KYSNB_SSCD, KYSNB_SEQ ) as ct from  AUTKYSNB dt ) " + "sub WHERE ( ct > "
-				+ indexStart + " AND ct <= " + indexEnd + " ) AND 1 = 1 ";
+				+ " SELECT dt.*, ROW_NUMBER() over (ORDER BY KYSNB_SEDT, KYSNB_SHMS, KYSNB_DEPO, KYSNB_MKCD, KYSNB_SSCD, KYSNB_SEQ ) as ct from  AUTKYSNB dt where 1 = 1 ";
 		String sql2 = "";
+		String sql3 = " ) sub WHERE ( ct > " + indexStart + " AND ct <= " + indexEnd + " ) ";
 		
 		if(!AVX4Util.isBlankOrNull(kYSNB_SEDT_From)) {
 			sql2 = sql2 + " AND CONVERT(date,KYSNB_SEDT) >= CONVERT(date,'" + kYSNB_SEDT_From + "') ";
@@ -78,7 +88,7 @@ public class KYSNBDAO {
 			sql2 = sql2 + " AND KYSNB_BHNO LIKE '%" + kYSNB_BHNO + "%' ";
 		}
 		
-		String sql = sql1 + sql2 ;
+		String sql = sql1 + sql2 + sql3;
 		System.out.println(sql);
 		ArrayList<KYSNB> list = new ArrayList<KYSNB>();
 		KYSNB kYSNB = new KYSNB();
